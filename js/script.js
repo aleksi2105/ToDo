@@ -29,12 +29,26 @@ const render = function () {
       render()
     })
 
+    li.querySelector('.todo-remove').addEventListener('click', function () {
+      const index = toDoData.indexOf(item)
+      if (index !== -1) {
+        toDoData.splice(index, 1)
+      }
+      render()
+    })
+
   })
 
 }
 
 todoControl.addEventListener('submit', function (event) {
   event.preventDefault()
+
+  if (headerInput.value.trim() === '') {
+    alert('Введите текст!')
+    return
+  }
+
   const newToDo = {
     text: headerInput.value,
     completed: false
