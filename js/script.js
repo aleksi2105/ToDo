@@ -4,7 +4,21 @@ const headerInput = document.querySelector('.header-input')
 const todoList = document.querySelector('.todo-list')
 const todoCompleted = document.querySelector('.todo-completed')
 
-const toDoData = []
+let toDoData = []
+
+const saveToLocalStorage = function () {
+  localStorage.setItem('todoData', JSON.stringify(toDoData))
+}
+
+const loadFromLocalStorage = function () {
+  const savedData = localStorage.getItem('todoData')
+
+  if (savedData) {
+    toDoData = JSON.parse(savedData)
+  } else {
+    toDoData = []
+  }
+}
 
 const render = function () {
   todoList.innerHTML = ''
@@ -27,6 +41,7 @@ const render = function () {
     li.querySelector('.todo-complete').addEventListener('click', function () {
       item.completed = !item.completed
       render()
+      saveToLocalStorage()
     })
 
     li.querySelector('.todo-remove').addEventListener('click', function () {
@@ -35,17 +50,19 @@ const render = function () {
         toDoData.splice(index, 1)
       }
       render()
+      saveToLocalStorage()
     })
 
   })
 
+  saveToLocalStorage()
 }
 
 todoControl.addEventListener('submit', function (event) {
   event.preventDefault()
 
   if (headerInput.value.trim() === '') {
-    alert('Введите текст!')
+    alert('Пожалуйста, введите текст дела!')
     return
   }
 
@@ -58,5 +75,8 @@ todoControl.addEventListener('submit', function (event) {
   headerInput.value = ''
 
   render()
+
 })
 
+loadFromLocalStorage()
+render() 
