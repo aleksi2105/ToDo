@@ -4,20 +4,10 @@ const headerInput = document.querySelector('.header-input')
 const todoList = document.querySelector('.todo-list')
 const todoCompleted = document.querySelector('.todo-completed')
 
-let toDoData = []
+let toDoData = JSON.parse(localStorage.getItem('todoData')) || []
 
 const saveToLocalStorage = function () {
   localStorage.setItem('todoData', JSON.stringify(toDoData))
-}
-
-const loadFromLocalStorage = function () {
-  const savedData = localStorage.getItem('todoData')
-
-  if (savedData) {
-    toDoData = JSON.parse(savedData)
-  } else {
-    toDoData = []
-  }
 }
 
 const render = function () {
@@ -78,5 +68,4 @@ todoControl.addEventListener('submit', function (event) {
 
 })
 
-loadFromLocalStorage()
 render() 
